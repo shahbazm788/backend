@@ -2,7 +2,7 @@ const Product = require("../models/product.js");
 
 
 module.exports={
-  vreateProduct: async (req,res) => {
+  createProduct: async (req,res) => {
     const newProduct = new Product(req.body);
     
     try{
@@ -29,6 +29,29 @@ module.exports={
     }
     catch(error){
       res.status(500).json("filed to get product")
+    }
+  },
+  searchProduct: async (req,res) => {
+    try{
+      const result = await Product.aggregate(
+        [
+  {
+    $search: {
+      index: "fur",
+      text: {
+        query: req.params.key,
+        path: {
+          wildcard: "*"
+        }
+      }
+    }
+  }
+]
+        );
+        res.status(200).json(result);
+    }
+    catch(error){
+      res.status(500).json("not found");
     }
   },
 }
