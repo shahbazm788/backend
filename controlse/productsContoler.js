@@ -17,6 +17,7 @@ module.exports={
     try{
       const products = await Product.find().sort({createdAt:-1});
       res.status(200).json(products);
+      console.log(products)
     }
     catch(error){
       res.status(500).json("filed to get products")
@@ -32,7 +33,8 @@ module.exports={
     }
   },
   searchProduct: async (req,res) => {
-    try{
+    console.log(req.body)
+   try{
       const result = await Product.aggregate(
         [
   {
@@ -49,9 +51,21 @@ module.exports={
 ]
         );
         res.status(200).json(result);
+        console.log(result)
     }
     catch(error){
       res.status(500).json("not found");
+    }
+  },
+  getByCategory: async (req,res) => {
+    const catName = req.body.catName;
+    //console.log(catName)
+    try{
+      const result = await Product.find({"category":catName});
+      res.send(result);
+    }
+    catch(err){
+      console.log(err)
     }
   },
 }

@@ -5,6 +5,10 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = express();
+const userRouter = require("./auth/user_router.js");
+const reviewRouter = require("./reviews/reviews_router.js");
+const catRouter = require("./categories/category_routs.js");
+
 
 dotenv.config();
  mongoose.connect(
@@ -12,23 +16,41 @@ dotenv.config();
     { useNewUrlParser: true })
      .then(() => console.log('DB connected'))
      .catch( (error) => error);
-  
+     
+ app.use(cors({
+  credentials: true,
+      origin: "*",
+      methods: ["GET", "POST", "PUT", "DELETE"],
+     
+    })
+  )
+     
+     
+  app.use(express.static(__dirname+"/public"));
   //futnitureapp
   app.use(express.json({limit:"10mb"}))
   app.use(express.urlencoded({limit:"10mb", extended:true}));
+app.use("/products",productRouter);
+app.use("/user",userRouter);
+app.use("/review",reviewRouter);
+app.use("/catagory",catRouter);
 
-  
+
+
+
   app.get("/", (req, res) => {
     console.log("geting")
-    res.send("wellcom")
-    
+    res.send("wellcom");
 });
-app.get("/create",async (req,res) => {
+app.get("/product/create",async (req,res) => {  
   const newProduct = new Product(
- { title:"Title here",
+ { title:"beutiful Product Title ",
     supplier:"xyz",
-    imageUrl:"url",
-    description:"discraption",
+    category:"woman",
+    sub_category:"womans's Fasion",
+    imageUrl:"pexels-thgusstavo-santana-2533323.jpg",
+    price:"9000",
+    description:"Top class curtains discraption",
     product_location:"location" }
       );
       try{
@@ -38,12 +60,29 @@ app.get("/create",async (req,res) => {
     catch(error){
       res.status(500).json("Prduct Creation filed ")
     }
-  res.send("product created");
+  
+});
+
+
+//search product 
+/*app.get("/search",async (req,res) => {
+  const title = "First Product Title ";
+  const product = await Product.find({title});
+  console.log(product);
+  res.send(product)
+});*/
+app.get("/products/search",productRouter)
+app.get("/search",(req,res) => {
+  console.log(req.body);
+  res.send("ok")
 })
 
+
+
+app.post("/uploadimg",(req,res) => {
+  console.log(req.body)
+})
 app.listen(process.env.PORT,() => {
   console.log("connected");
-  
-  
 })
 module.exports = app;
