@@ -8,11 +8,13 @@ const app = express();
 const userRouter = require("./auth/user_router.js");
 const reviewRouter = require("./reviews/reviews_router.js");
 const catRouter = require("./categories/category_routs.js");
+const DB = "mongodb+srv://shahbazm788:wpd.jj.dpw@cluster0.ugwiuxd.mongodb.net/futnitureapp";
+/* 
 
-
-dotenv.config();
+*/
+//dotenv.config();
  mongoose.connect(
-    process.env.DB,
+   DB,
     { useNewUrlParser: true })
      .then(() => console.log('DB connected'))
      .catch( (error) => error);
