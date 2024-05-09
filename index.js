@@ -32,12 +32,12 @@ const DB = "mongodb+srv://shahbazm788:wpd.jj.dpw@cluster0.ugwiuxd.mongodb.net/fu
   //futnitureapp
   app.use(express.json({limit:"10mb"}))
   app.use(express.urlencoded({limit:"10mb", extended:true}));
-app.use("/products",productRouter);
+/*app.use("/products",productRouter);
 app.use("/user",userRouter);
 app.use("/review",reviewRouter);
 app.use("/catagory",catRouter);
 
-
+*/
 
 
   app.get("/", (req, res) => {
@@ -64,6 +64,21 @@ app.get("/product/create",async (req,res) => {
     }
   
 });
+
+
+//geting all products
+app.get("/products",  async (req,res) => {
+    try{
+      const products = await Product.find().sort({createdAt:-1});
+      res.status(200).json(products);
+      console.log(products)
+    }
+    catch(error){
+      res.status(500).json("filed to get products")
+    }
+  } );
+
+
 
 
 //search product 
