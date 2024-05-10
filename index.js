@@ -123,6 +123,58 @@ app.post("/getbycat",async (req,res) => {
 });
 
 
+app.post("/reguser",async (req,res) => {
+  // console.log(req.body);
+  //  res.json("ok");
+        try {
+        const newUser =  new Addusers(req.body);
+        const token = await newUser.genrateToken();
+        const result = await newUser.save();
+        // console.log(token)
+        res.cookie("front_jwt",token,{
+            withCredentials: true,
+            httpOnly: false,
+          });
+        res.send(result);
+     
+        console.log(result);
+    } catch (e) {
+        console.error('Error', e)
+    }
+  });
+
+
+  app.post("/login",async (req,res,next) => {
+    const {email,password} = req.body;
+   // const data = await Addusers.find();
+    //const getData = await Addusers.findOne({email:email});
+   // console.log(getData)
+   try{
+      const getData = await Addusers.findOne({email:email});
+     // const _id = getData._id;
+       const userPass = getData.password;
+            if(getData != null && userPass === password){
+              const _id = getData._id;
+              const updatedUser = await Addusers.findOneAndUpdate({_id},{$set:{
+                   login:true
+               }},{
+                   new:true
+               })
+       /*     const token = getData.tokens.token;
+              res.cookie("jwt", token, {
+               withCredentials: true,
+               httpOnly: false,
+             });*/
+             res.json(updatedUser);
+             console.log(updatedUser);
+            }
+        
+    }
+    catch(err){
+      console.log(err)
+    }
+    
+  });
 
 
 
