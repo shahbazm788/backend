@@ -108,7 +108,7 @@ app.get("/search/:key", async (req,res) => {
   }
 });
 
-
+//geting by catagoryy
 
 app.post("/getbycat",async (req,res) => {
   const catName = req.body.catName;
@@ -121,6 +121,17 @@ app.post("/getbycat",async (req,res) => {
     console.log(err)
   }
 });
+
+
+app.get("/catagory",async (req,res) => {
+    const allCat = await Catagory.find();
+    allCat ? res.send(allCat): res.send("no catagory found");
+  });
+
+
+
+
+
 
 
 app.post("/reguser",async (req,res) => {
