@@ -10,7 +10,7 @@ const reviewRouter = require("./reviews/reviews_router.js");
 const catRouter = require("./categories/category_routs.js");
 const DB = "mongodb+srv://shahbazm788:wpd.jj.dpw@cluster0.ugwiuxd.mongodb.net/futnitureapp";
 const Addusers  = require("./auth/registor_user_shcema.js");
-
+const Catagory = require("./categories/category_schema.js");
 /* 
 
 */
