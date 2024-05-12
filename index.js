@@ -127,7 +127,17 @@ app.get("/catagory",async (req,res) => {
     const allCat = await Catagory.find();
     allCat ? res.send(allCat): res.send("no catagory found");
   });
-
+app.post("/products/getbycat",async (req,res) => {
+    const catName = req.body.catName;
+    //console.log(catName)
+    try{
+      const result = await Product.find({"category":catName});
+      res.send(result);
+    }
+    catch(err){
+      console.log(err)
+    }
+  })
 
 
 
