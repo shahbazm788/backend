@@ -35,13 +35,13 @@ const Catagory = require("./categories/category_schema.js");
   app.use(express.json({limit:"10mb"}))
   app.use(express.urlencoded({limit:"10mb", extended:true}));
 /*app.use("/products",productRouter);
-app.use("/user",userRouter);
+
 app.use("/review",reviewRouter);
 app.use("/catagory",catRouter);
 
 */
 
-
+app.use("/user",userRouter);
   app.get("/", (req, res) => {
     console.log("geting")
     res.send("wellcom");
